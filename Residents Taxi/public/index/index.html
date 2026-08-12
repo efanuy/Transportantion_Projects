@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	.divcss5{text-align:center}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Ig6HSfshp8NzuXL9UmO9iAH8uOHCERgb"></script>
+	
+	<script type="text/javascript" src="js/LuShu_min.js"></script>
+	<script type="text/javascript" src="js/d3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	
+	<title>地图展示</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<div class="totalsBox tbox2" style="z-index: 9999; float:right; margin-right:20px;">
+        <div class = "boxHeader">统计信息</div>
+
+        <p>乘车费用: <span class = "runningFare running"></span></p>
+        <p>油费: <span class = "runningSurcharge running"></span></p>
+        <p><span class = "runningTax running"></span></p>
+        <p><sup></sup><span class = "runningTip running"></span></p>
+        <p class = "tolls"> <span class = "runningTolls running"></span></p>
+        <p>费用合计: <span class = "runningTotal running"></span></p>
+        <p>乘客总数: <span class = "runningPassengers running"></span></p>
+        <div class = "passengerGlyphs"></div>
+    </div> 
+	
+	<div id="allmap" style="width: 100%; height: 95%; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236); "></div>
+	<div class="titleBox box" style="z-index: 9999; margin-right:500px;margin-top:0px;">
+        <div class = "divcss5" >交通大数据——昆明市出租车轨迹数据可视化</div>
+    </div>
+
+<div style="color:#000000"><button id="run" color="#FF3030">run</button>
+<button id="stop">stop</button> 
+<button id="pause">pause</button> 
+<button id="hide">hide infoWindow</button> 
+<button id="show">show infoWindow</button></div>	
+
+<script> 
+
+//d3.json('/taxi', function (data) {
+
+var myP1 = new BMap.Point(102.742709,25.0548153);    //起点
+var myP2 = new BMap.Point(102.7247473,25.02369634);
+var map = new BMap.Map('allmap');
+var lushu;
+var arrPoi;
+var arrPois = new Array();
+var points = new Array();
+var q=0;   
+for(var p=0;p<data.features.length;p++){
+	points[p] = new BMap.Point(data.features[p].properties.lng,data.features[p].properties.lat);
+	//console.log(points[p].lng + "," + points[p].lat);
+}
+
+function driving(Pois){
+	var drv = new BMap.DrivingRoute('昆明');
+	//console.log(i);
+	/*drv.search(points[i],points[i+1]);
+	drv.setSearchCompleteCallback(function(){
+	Poi = drv.getResults().getPlan(0).getRoute(0).getPath();
+	Pois=Pois.concat(Poi);
+	for(var j=0;j<Poi.length;j++){
+		//console.log("OK");
+		console.log(Poi[j].lng + "," + Poi[j].lat);
+		console.log("OK");
+	}*/
+	
+	/*if(i==12)
+		alert("下车" + Poi[0].lng + "," + Poi[0].lat);
+	if(i==15)
+		alert("上车" + Poi[0].lng + "," + Poi[0].lat);
+	if(i==22)
+		alert("下车" + Poi[0].lng + "," + Poi[0].lat);
+	
+	
+	if(i<points.length-2){
+		driving(++i,Poi,Pois);
+		
+	}*/	
+		map.addOverlay(new BMap.Polyline(Pois, {strokeColor: '#43CD80', strokeWeight:1, strokeStyle:'dashed'}));
+            map.setViewport(Pois);
+            lushu = new BMapLib.LuShu(map,Pois,{
+            defaultContent:"行驶中",
+			 landmarkPois:[
+				{lng:102.742844,lat:25.054995,html:'上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+				{lng:102.742852,lat:25.054996,html:'2上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.741787,lat:25.016736,html:'3上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.723803,lat:25.028945,html:'4上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.73588,lat:25.093013,html:'5上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.731934,lat:25.10588,html:'6上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+//{lng:102.734112,lat:25.087414,html:'7上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.722986,lat:25.026813,html:'8上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.732077,lat:25.085034,html:'9上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.737464,lat:25.09361,html:'10上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.733883,lat:25.143796,html:'11上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.669381,lat:25.105659,html:'12上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.670226,lat:25.087508,html:'13上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+//{lng:102.721949,lat:25.02452,html:'14上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+//{lng:102.926739,lat:25.098421,html:'15上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.762406,lat:24.98005,html:'16上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.732008,lat:25.036373,html:'17上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.708785,lat:25.036113,html:'18上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.707513,lat:25.044885,html:'19上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+//{lng:102.717947,lat:25.031657,html:'20上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+//{lng:102.736366,lat:25.077005,html:'21上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.758972,lat:25.088701,html:'22上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.742528,lat:25.12236,html:'23上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.722787,lat:25.097975,html:'24上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+//{lng:102.720136,lat:25.073069,html:'25上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+//{lng:102.679469,lat:25.052215,html:'26上车点\n乘客数：1人<div><img src="shangche.jpg"/></div>',pauseTime:5},
+{lng:102.741636,lat:25.017238,html:'1下车点\n路程：8千米\n费用：18元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.724339,lat:25.023127,html:'下车点\n路程：4.7千米\n费用：13元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.73461,lat:25.074468,html:'3下车点\n路程：6.8千米\n费用：16元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.745106,lat:25.123717,html:'4下车点\n路程：5.7千米\n费用：14元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.734112,lat:25.087414,html:'5下车点\n路程：3.2千米\n费用：10元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+//{lng:102.723375,lat:25.026864,html:'6下车点\n路程：8.3千米\n费用：19元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.724435,lat:25.075394,html:'7下车点\n路程：6.5千米\n费用：16元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+//{lng:102.734207,lat:25.082302,html:'8下车点\n路程：1.8千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+//{lng:102.747845,lat:25.094567,html:'9下车点\n路程：1.6千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.654821,lat:25.112163,html:'10下车点\n路程：14千米\n费用：33元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.673305,lat:25.090332,html:'11下车点\n路程：8.8千米\n费用：20元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.721949,lat:25.02447,html:'12下车点\n路程：11.1千米\n费用：25元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.926739,lat:25.098421,html:'13下车点\n路程：28.5千米\n费用：72元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+//{lng:102.764903,lat:24.978122,html:'14下车点\n路程：2.4千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.7727,lat:25.010113,html:'15下车点\n路程：6.7千米\n费用：16元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.709035,lat:25.035886,html:'16下车点\n路程：0.3千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.698181,lat:25.039374,html:'17下车点\n路程：2.3千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.719015,lat:25.021916,html:'18下车点\n路程：2.2千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+//{lng:102.736165,lat:25.077057,html:'19下车点\n路程：0.17千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+//{lng:102.758972,lat:25.088701,html:'20下车点\n路程：0.15千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.763114,lat:25.109691,html:'21下车点\n路程：5.2千米\n费用：13元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.728677,lat:25.099299,html:'22下车点\n路程：2.6千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+//{lng:102.743601,lat:25.093924,html:'23下车点\n路程：4.2千米\n费用：12元<div><img src="xiache.jpg"/></div>',pauseTime:5},
+{lng:102.679469,lat:25.052225,html:'24下车点\n路程：0.08千米\n费用：9元<div><img src="xiache.jpg"/></div>',pauseTime:5}
+
+               //{lng:102.743288,lat:25.04115266,html:'肯德基早餐元<div><img src="http://ishouji.baidu.com/resource/images/map/show_pic04.gif"/></div>',pauseTime:2}
+            ],
+            autoView:true,//是否开启自动视野调整，如果开启那么路书在运动过程中会根据视野自动调整
+            icon  : new BMap.Icon('car.png', new BMap.Size(52,26),{anchor : new BMap.Size(27, 13)}),
+            speed: 500,
+            enableRotation:true,//是否设置marker随着道路的走向进行旋转
+           });
+	}
+
+map.enableScrollWheelZoom();
+map.centerAndZoom(new BMap.Point(102.742709,25.0548153), 14);
+map.addEventListener("click",function(e){
+		alert(e.point.lng + "," + e.point.lat);
+	});
+     // 打开信息窗口
+	
+driving(points);
+
+//绑定事件
+$("run").onclick = function(){
+    lushu.start();
+}
+$("stop").onclick = function(){
+    lushu.stop();
+}
+$("pause").onclick = function(){
+    lushu.pause();
+}
+$("hide").onclick = function(){
+    lushu.hideInfoWindow();
+}
+$("show").onclick = function(){
+    lushu.showInfoWindow();
+}
+function $(element){
+    return document.getElementById(element);
+}
+
+//});
+</script>
+<script src="js/moment-with-locales.js"></script>
+<script src="js/script.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Ig6HSfshp8NzuXL9UmO9iAH8uOHCERgb"></script>
+	<script type="text/javascript" src="js/LuShu_min.js"></script>
+	<script type="text/javascript" src="js/d3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	
+	
+	<title>地图展示</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/TrafficControl_min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="totalsBox tbox2" style="z-index: 9999; float:right;">
+        <div class = "boxHeader">统计信息</div>
+
+        <p>当前收入: <input type="text" id="txt1" style="background:transparent;width:50px;border:none"><span>元</span> </p>
+        <p><sup></sup><span class = "runningTip running"></span></p>
+        <p class = "tolls"> <span class = "runningTolls running"></span></p>
+        <p>今日收入累计: <input type="text" id="txt2" style="background:transparent;width:50px;border:none">&nbsp;元</p>
+        <p>今日乘客数累计： <input type="text" id="txt3" style="background:transparent;width:50px;border:none">&nbsp;位</p>
+		<p>今日里程累计： <input type="text" id="txtlucheng" style="background:transparent;width:80px;border:none">&nbsp;公里</p>
+		<p>空驶率： <input type="text" id="txtKongshilv" style="background:transparent;width:80px;border:none">&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;%</p>
+		
+    </div> 
+	
+<div class="timeBox tbox2" style="z-index: 9999;">
+        <p>数据日期: <input type="text" id="txtDate" value="2012年8月11日" style="background:transparent;width:200px;border:none"> </p>
+		<p>数据时间： <input type="text" id="txtHour" style="background:transparent;width:40px;border:none">时&nbsp;<input type="text" id="txtMin" style="background:transparent;width:40px;border:none">分 </p>
+		<!--计时： <input type="text" id="txtSecond" style="background:transparent;width:80px;border:none">&nbsp;秒</p>-->
+    </div>	 
+
+	<div class="signBox tbox2" style="z-index: 9999; float:left; ">
+        <div class = "boxHeader">图例</div>
+		<p><img src="car.png" width="50px" height="26px" />出租车</p>
+		<p><img src="shangche.jpg" width="50px" height="50px" />上车点</p>
+		<p><img src="xiache.jpg" width="50px" height="50px" />下车点</p>
+    </div>
+	
+
+	
+	
+	<div id="allmap" style="width: 100%; height: 88.5%; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236); "></div>
+	
+	<div class="titleBox box" style="z-index: 9999;">交通大数据——昆明市出租车轨迹数据可视化 </div>
+        
+
+	<div class="buttonBox tbox2" style="z-index: 9999;">
+		   			<button id="run">开始</button>
+<button id="stop" >停止</button> 
+<button id="pause">暂停</button> 
+<button id="pause">小车隐藏</button>
+<button id="pause">小车显示</button>
+<button id="pause">上下车点提示</button>
+
+    </div> 
+	<div class="chartBox tbox2" style="z-index: 9999;">
+	
+		<div id="timeline" style="z-index: 9999; width:2px; height:110px; background-color:#ED7812;margin-left:37px; margin-top:0px; position: absolute;"></div>
+		<div id="rectangle" style="z-index: 9998; width:1875px; height:76px; background-color:rgba(222, 222, 222, 1);margin-left:37px; margin-top:0px; position: absolute;"></div>
+		<div id="lblCost" style="width:15px; height:15px; margin-left:28px; margin-top:10px; position: absolute;">总收入</div>
+		<div id="lblTime" style="width:100px; height:15px; margin-left:42px; margin-top:75px; position: absolute;">时间</div>
+		
+        <div class='wrapper' style="position: absolute; "> 	<canvas height='100' id='canvas' width='1915'></canvas></div>
+		
+	
+    </div> 
+	<script src="js/relipoints.js"></script><!--热力图点设置-->
+
+	<script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script><!--热力图类-->
+	
+	<script type="text/javascript" src="js/ditu.js"></script>	<!--加载百度地图、路书、热力图-->
+<script type="text/javascript" src="js/TrafficControl_min.js"></script><!--路况类-->
+<script type="text/javascript" src="js/movechart.js"></script><!--时间轴移动-->
+<script src="js/jishiqi.js"></script><!--计时器设置-->
+<script src="js/moment-with-locales.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/prefixfree.min.js"></script><!--时间轴类1-->
+  <script src='js/Chart.min.js'></script><!--时间轴类2-->
+  <script src="js/line-chart-index.js"></script><!--时间轴设置-->
+  <script src="js/mystylejson.js"></script><!--地图样式-->
+  
+	
+</body>
+</html>

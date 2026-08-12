@@ -1,0 +1,133 @@
+ html,
+    body {
+        height: 100%;
+        width: 100%;
+    }
+    body {
+        margin: 0;
+        color:#fff;
+    }
+    #map {
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        width: auto;
+        height: auto;
+    }
+
+
+    .totalsBox {
+		background:rgba(222, 222, 222, 0.6);
+        position: absolute;
+        top: 570px;
+        right: 10px;
+        width: 450px;
+		height: 260px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	
+	.timeBox {
+		background:rgba(222, 222, 222, 0.6);
+        position: absolute;
+		left:10px;
+        top: 150px;
+        width: 360px;
+		height: 90px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	
+	.signBox {
+		background:rgba(222, 222, 222, 0.6);
+        position: absolute;
+		left:10px;
+        top: 620px;
+        width: 200px;
+		height: 200px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	
+	.chartBox {
+		background:rgba(222, 222, 222, 1);
+        position: absolute;
+		bottom:10px;
+        width: 100%;
+		height: 100px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	
+	.buttonBox {
+		background:rgba(222, 222, 222,0.75);
+        position: absolute;
+		bottom:110px;
+        width: 414px;
+		height: 30px;
+		color:#000000;	
+		font-family:黑体;
+    }
+
+	
+	 .titleBox {
+        position: absolute;
+		text-align:center;
+		left:210px;
+        top: 15px;
+        width: 1500px;
+		color:#FF3030;	
+		font-size: 60px;	
+		font-weight:bold;		
+    }
+
+    .totalsBox p {
+        font-size: 30px;
+        margin-bottom: 0;
+		width: 400px;
+    } 
+	
+	.timeBox p {
+        font-size: 30px;
+        margin-bottom: 0;
+		width: 400px;
+    } 
+	
+	.signBox p {
+        font-size: 20px;
+		width: 400px;
+    }
+
+    .running {
+        float:right;
+    }
+
+    .tolls {
+        border-bottom: 1px solid #fff;
+    }
+
+    .box {
+        background:rgba(0, 0, 0, 0);
+        padding: 6px;
+        box-sizing: padding-box;
+        border-radius: 6px;
+		/*width: 450px;*/
+		
+    }
+
+
+    .boxHeader {
+        font-size:30px;
+		text-align:center;
+		
+    }
+	
+	 .dateTimeBox {
+        position: absolute;
+        top: 65px;
+        left: 15px;
+        width: 300px;  
+    }
