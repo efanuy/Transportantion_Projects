@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.efancn.DataAq.dao.UserDao">  
+     <!-- 定义缓存  一般是一级缓存，如果用同一个sqlsession 那么相同查询直接会从缓存中查找 -->  
+    <cache size="1024" flushInterval="60000" eviction="LRU" readOnly="false"></cache>  
+    <!-- 增加 -->  
+    <insert id="add" parameterType="com.efancn.DataAq.domain.User">  
+        insert into users values(#{name},#{time},#{status},#{angle},#{segid},#{roadname},#{mmlon},'11','12')  
+    </insert>  
+    <resultMap id="userResultMap" type="com.efancn.DataAq.domain.User" >  
+        <id property="name" column="name"/>  
+        <result property="time" column="time"/>  
+        <result property="status" column="status"/>  
+        <result property="angle" column="angle"/>  
+        <result property="segid" column="segid" />  
+        <result property="roadname" column="roadname" />  
+        <result property="mmlon" column="mmlon" />  
+        <result property="mmlat" column="mmlat" />
+        <result property="geohash" column="geohash" /> 
+    </resultMap>  
+    <select id="getUserById" parameterType="Integer" resultMap="userResultMap">  
+        select * from taxi where name=#{name}  
+    </select>  
+    <select id="find" parameterType="java.util.Map" resultMap="userResultMap" statementType="STATEMENT">  
+            select * from ${name}  
+        
+        <if test="start!=null and size!=null">  
+            limit ${start},${size}  
+        </if>  
+    </select>  
+    <select id="getTotal" parameterType="Map" resultType="Long">  
+        select count(*) from ${name}   
+    </select>  
+    <!-- 用户删除 -->  
+    <delete id="delete" parameterType="Integer">  
+        delete from taxi where name = #{name}  
+    </delete>  
+    <!-- 用户修改 -->  
+    <update id="update" parameterType="com.efancn.DataAq.domain.User">  
+        update taxi  
+        <set>  
+            <if test="angle != null and angle != ''">angle = #{angle},</if>  
+            <if test="time != null and time != ''">time = #{time},</if>  
+            <if test="status != null and status != ''">status = #{status},</if>  
+            <if test="segid != null and segid != ''">segid = #{segid},</if>  
+            <if test="roadname != null and roadname != ''">roadname = #{roadname},</if>  
+            <if test="mmlon != null and mmlon != ''">mmlon = #{mmlon},</if>  
+            <if test="mmlat != null and mmlat != ''">mmlat = #{mmlat},</if>  
+        </set>  
+        where name = #{name}  
+    </update>  
+</mapper> 

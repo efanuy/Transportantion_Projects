@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <!-- 原始地址：//webapi.amap.com/ui/1.0/ui/misc/PointSimplifier/examples/multi-icons.html -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>图标分组</title>
+    <style>
+    html,
+    body,
+    #container {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+    }
+    
+    #loadingTip {
+        position: absolute;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        padding: 3px 10px;
+        background: red;
+        color: #fff;
+        font-size: 13px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script type="text/javascript" src='http://webapi.amap.com/maps?v=1.3&key=f2b9dfde1cb3e131ce30e453b35b0dcd'></script>
+    <!-- UI组件库 1.0 -->
+    <script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.10"></script>
+    <script type="text/javascript">
+    //创建地图
+    var map = new AMap.Map('container', {
+		center: [106.694795,26.596919],
+        zoom: 10,
+		mapStyle:'amap://styles/a09979fed770900a405a633eb4b2737b'
+    });
+	
+	addKaiyang()
+
+    function addKaiyang() {
+		var adcode = new Array(3);
+        //加载行政区划插件
+        AMap.service('AMap.DistrictSearch', function() {
+            var opts = {
+                subdistrict: 0,   //返回下一级行政区
+                extensions: 'all',  //返回行政区边界坐标组等具体信息
+                level: 'district'  //查询行政级别为 市
+            };
+            //实例化DistrictSearch
+            district = new AMap.DistrictSearch(opts);
+			
+            district.search('520121', function(status, result) {
+				console.log(result.districtList[0])
+                var bounds = result.districtList[0].boundaries;
+                var polygons = [];
+                if (bounds) {
+                    for (var i = 0, l = bounds.length; i < l; i++) {
+                        //生成行政区划polygon
+                        var polygon = new AMap.Polygon({
+                            map: map,
+                            strokeWeight: 1,
+                            path: bounds[i],
+                            fillOpacity: 0.3,
+                            fillColor: '#55C3BA',
+                            strokeColor: '#CC66CC'
+                        });
+                        polygons.push(polygon);
+                    }
+                    map.setFitView();//地图自适应
+                }
+            });
+        });
+    }
+
+
+    function initPage(PointSimplifier, $) {
+
+        var pointSimplifierIns, groupStyleMap;
+
+        pointSimplifierIns = new PointSimplifier({
+            zIndex: 115,
+            //autoSetFitView: false,
+            map: map, //所属的地图实例
+
+            getPosition: function(item) {
+
+                var lngLatLine = item.lngLatLine;
+
+                if (!lngLatLine) {
+                    return null;
+                }
+
+                var parts = lngLatLine.split(',');
+
+                return [parseFloat(parts[0]), parseFloat(parts[1])];
+            },
+            getHoverTitle: function(dataItem, idx) {
+                return '序号: ' + idx;
+            },
+            //使用GroupStyleRender
+            renderConstructor: PointSimplifier.Render.Canvas.GroupStyleRender,
+            renderOptions: {
+                //点的样式
+                pointStyle: {
+                    width: 5,
+                    height: 5,
+                    fillStyle:'#A2D0FA'
+                },
+                getGroupId: function(item, idx) {
+
+                    return item.groupId;
+                },
+                groupStyleOptions: function(gid) {
+
+                    return groupStyleMap[gid];
+                }
+
+            }
+        });
+
+        function onIconLoad() {
+            pointSimplifierIns.renderLater();
+        }
+
+        function onIconError(e) {
+            alert('图片加载失败！');
+        }
+
+        groupStyleMap = {
+            '0': {
+                pointStyle: {
+                    //绘制点占据的矩形区域
+                    //宽度
+                    width: 5,
+                    //高度
+                    height: 5,
+                    //定位点为中心
+                    offset: ['-50%', '-50%'],
+                    fillStyle: '#0cc2f2',
+                    //strokeStyle: null
+                }
+            },
+            '1': {
+                pointStyle: {
+                    //绘制点占据的矩形区域
+                    //宽度
+                    width: 5,
+                    //高度
+                    height: 5,
+                    //定位点为中心
+                    offset: ['-50%', '-50%'],
+                    fillStyle:  '#4fd2b1',
+                    // strokeStyle: null
+                }
+            },
+            '2': {
+                pointStyle: {
+                    //绘制点占据的矩形区域
+                    //宽度
+                    width: 5,
+                    //高度
+                    height: 5,
+                    //定位点为中心
+                    offset: ['-50%', '-50%'],
+                    fillStyle:  '#90e36f',
+                    //strokeStyle: null
+                }
+            },
+            '3': {
+                pointStyle: {
+                    //绘制点占据的矩形区域
+                    //宽度
+                    width: 5,
+                    //高度
+                    height: 5,
+                    //定位点为中心
+                    offset: ['-50%', '-50%'],
+                    fillStyle:  '#ffe700',
+                    //strokeStyle: null
+                }
+            }
+        };
+		
+		//61 85 109 133 157 216 273 320 362 403 428 453 478
+        $('<div id="loadingTip">加载数据，请稍候...</div>').appendTo(document.body);
+        $.get('kaiyang/4/kaiyang4.txt', function(csv) {
+
+            $('#loadingTip').remove();
+
+            var lines = csv.split('\n'),
+                data = [];
+
+            for (var i = 0; i <= 156; i++) {
+
+                data.push({
+                    lngLatLine: lines[i],
+                    groupId: 0
+                });
+            }
+			
+			for (var i = 157; i <= 256; i++) {
+
+                data.push({
+                    lngLatLine: lines[i],
+                    groupId: 1
+                });
+            }
+			
+			for (var i = 257; i <= 354; i++) {
+
+                data.push({
+                    lngLatLine: lines[i],
+                    groupId: 2
+                });
+            }
+			
+			for (var i = 355; i <= 452; i++) {
+
+                data.push({
+                    lngLatLine: lines[i],
+                    groupId: 3
+                });
+            }
+
+            pointSimplifierIns.setData(data);
+        });
+		
+    }
+
+    AMapUI.load(['ui/misc/PointSimplifier', 'lib/$'], function(PointSimplifier, $) {
+
+        if (!PointSimplifier.supportCanvas) {
+            alert('当前环境不支持 Canvas！');
+            return;
+        }
+
+        initPage(PointSimplifier, $);
+    });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,296 @@
+ html,
+    body {
+        height: 100%;
+        width: 100%;
+    }
+    body {
+        margin: 0;
+        color:#fff;
+    }
+    #map {
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        width: auto;
+        height: auto;
+    }
+	
+.div-charts1{
+	top:120px;
+	left:480px;
+	width:945px; 
+	height:700px;
+	position:absolute;
+	display:none;
+}
+@media screen and (max-width: 1024px) {
+	.div-charts1{
+		top:60px;
+		left:30px;
+		width:945px; 
+		height:500px;
+	}
+}
+@media screen and (max-width: 1366px) {
+	.div-charts1{
+		top:60px;
+		left:30px;
+		width:945px; 
+		height:500px;
+	}
+}
+
+.div-charts2{
+	top:120px;
+	left:1px;
+	width:1890px;
+	height:700px;
+	position:absolute;
+	display:none;
+}
+@media screen and (max-width: 1024px) {
+	.div-charts2{
+		top:60px;
+		width:1000px;
+		height:500px;
+	}
+}
+@media screen and (max-width: 1366px) {
+	.div-charts2{
+		top:60px;
+		width:1360px;
+		height:500px;
+	}
+}
+@media screen and (max-width: 1600px) {
+	.div-charts2{
+		top:60px;
+		width:1560px;
+		height:700px;
+	}
+}
+
+.bigtitle{
+	font-family: 'Shojumaru', cursive, Arial, serif;
+	font-size:35px;
+	right:1000px;
+	top:10px;
+	z-index:9999;
+	position:absolute;
+}
+@media screen and (max-width: 1024px) {
+	.bigtitle{
+	font-size:25px;
+	width:350px;
+	right:440px;
+}
+}
+@media screen and (max-width: 1366px) {
+	.bigtitle{
+	font-size:25px;
+	width:350px;
+	right:750px;
+	top:20px;
+}
+}
+	
+	/* Close Button */
+.close-button {
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	right: 1em;
+	top: 1em;
+	overflow: hidden;
+	text-indent: 16px;
+	border: none;
+	z-index: 1001;
+	background: transparent;
+	color: transparent;
+	cursor:pointer;
+}
+
+.close-button::before,
+.close-button::after {
+	content: '';
+	position: absolute;
+	width: 2px;
+	height: 100%;
+	top: 0;
+	left: 50%;
+	background: #95a5a6;
+}
+
+.close-button::before {
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.close-button::after {
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+
+    .totalsBox {
+		background:rgba(222, 222, 222, 0.6);
+        position: absolute;
+        top: 500px;
+        right: 10px;
+        width: 450px;
+		height: 300px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	@media screen and (max-width: 1024px) { 
+	.totalsBox {
+		height: 225px;
+		width: 300px;
+		top: 310px;
+		right: 10px;	
+		} 	
+}
+	@media screen and (max-width: 1366px) { 
+	.totalsBox {
+		height: 225px;
+		width: 300px;
+		top: 310px;
+		right: 10px;	
+		} 	
+}	
+
+	
+	.timeBox {
+		background:rgba(222, 222, 222, 0.6);
+        position: absolute;
+		left:10px;
+        top: 150px;
+        width: 350px;
+		height: 135px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	@media screen and (max-width: 1024px) { 
+	.timeBox {
+			top: 100px;
+			height:105px;
+			width: 330px;
+			
+		} 	
+}
+	@media screen and (max-width: 1366px) { 
+	.timeBox {
+			top: 100px;
+			height:105px;
+			width: 330px;
+			
+		} 	
+}
+
+	
+	.signBox {
+		background:rgba(222, 222, 222, 0.6);
+        position: absolute;
+		left:10px;
+        top: 620px;
+        width: 200px;
+		height: 200px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	
+	.chartBox {
+		background:rgba(240, 240, 240, 1);
+        position: absolute;
+		bottom:0px;
+        width: 1920px;
+		height: 100px;
+		color:#000000;	
+		font-family:楷体;
+    }
+	
+	.buttonBox {
+		background:rgba(222, 222, 222,0.75);
+        position: absolute;
+		bottom:100px;
+        width: 414px;
+		height: 30px;
+		color:#000000;	
+		font-family:黑体;
+    }
+
+	
+	 .titleBox {
+        position: absolute;
+		text-align:center;
+		left:210px;
+        top: 15px;
+        width: 1500px;
+		color:#FF3030;	
+		font-size: 60px;	
+		font-weight:bold;		
+    }
+	@media screen and (max-width: 1024px) { 
+.titleBox {width: 850px;font-size: 40px;left:80px;} 
+} 
+	
+	
+
+    .totalsBox p {
+        font-size: 35px;
+        margin-bottom: 0;
+		width: 400px;
+    }
+	@media screen and (max-width: 1024px) { 
+.totalsBox p {font-size: 25px;} 
+} 	
+
+	
+	
+	.timeBox p {
+        font-size: 30px;
+        margin-bottom: 0;
+		width: 400px;
+    } 
+	@media screen and (max-width: 1024px) {
+	.timeBox p {font-size: 25px;} 
+}
+	
+	.signBox p {
+        font-size: 25px;
+		width: 400px;
+    }
+
+    .running {
+        float:right;
+    }
+
+    .tolls {
+        border-bottom: 1px solid #fff;
+    }
+
+    .box {
+        background:rgba(0, 0, 0, 0);
+        padding: 6px;
+        box-sizing: padding-box;
+        border-radius: 6px;
+		/*width: 450px;*/
+		
+    }
+
+
+    .boxHeader {
+        font-size:30px;
+		text-align:center;
+		
+    }
+	
+	 .dateTimeBox {
+        position: absolute;
+        top: 65px;
+        left: 15px;
+        width: 300px;  
+    }

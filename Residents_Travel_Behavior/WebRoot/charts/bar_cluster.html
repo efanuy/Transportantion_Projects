@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 945px;height:600px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+       var xAxisData = ["0点","1点","2点","3点","4点","5点","6点","7点","8点","9点","10点","11点","12点","13点","14点","15点","16点","17点","18点","19点","20点","21点","22点","23点"];
+			var data1 = [1790,1280,0,0,0,0,1010,2660,3850,3020,4700,2230,6860,4180,5690,4300,4330,3220,2860,3530,3210,3320,600,2320];
+
+			option = {
+				 backgroundColor: 'rgba(255, 255, 255, 1)',
+				textStyle: {
+						color: 'rgba(0, 0, 0, 1)'
+					},
+				
+				title: {
+					text: '',
+				},
+				legend: {
+					/*data: ['白云区','观山湖区','花溪区','开阳县','南明区','清镇市','市经济开发区','乌当区','息烽县','修文县','云岩区'],*/
+					data: ['2月26日'],
+					align: 'left',
+					textStyle: {
+						color: 'rgba(0, 0, 0, 1)'
+					}
+					
+				},
+				tooltip: {},
+				xAxis: {
+					name:"时间",
+					data: xAxisData,
+					silent: false,
+					splitLine: {
+						show: false
+					}
+				},
+				yAxis: {
+					name:"热点区域统计"
+				},
+				series: [{
+					name: '2月26日',
+					type: 'bar',
+					data: data1,
+					animationDelay: function (idx) {
+						return idx * 10;
+					}
+				}
+				
+				],
+				animationEasing: 'elasticOut',
+				animationDelayUpdate: function (idx) {
+					return idx * 5;
+				}
+			};
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+        ===
+        This comment should NOT be removed.
+
+        Charisma v2.0.0
+
+        Copyright 2012-2014 Muhammad Usman
+        Licensed under the Apache License v2.0
+        http://www.apache.org/licenses/LICENSE-2.0
+
+        http://usman.it
+        http://twitter.com/halalit_usman
+        ===
+    -->
+    <meta charset="utf-8">
+    <title>交通大数据出行分析</title>
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+    <meta name="author" content="Muhammad Usman">
+
+    <!-- The styles -->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/side_menu.css" >
+	<link rel="stylesheet" type="text/css" href="css/menu_wrap2.css" >
+	<link rel="stylesheet" type="text/css" href="css/set_wrap.css" >
+	<link rel="stylesheet" type="text/css" href="css/set2_wrap.css" >
+	<link rel="stylesheet" type="text/css" href="css/set3_wrap.css" >
+	<link rel="stylesheet" type="text/css" href="css/chart.css" >
+	<link rel="stylesheet" type="text/css" href="css/select2.min.css" >
+	
+
+    <link href="css/charisma-app.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+	
+    <!-- js -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+	<script src="http://webapi.amap.com/maps?v=1.3&key=f2b9dfde1cb3e131ce30e453b35b0dcd"></script>
+	<!-- UI组件库 1.0 -->
+    <script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.10"></script>
+	<script src="js/select2/select2.min.js"></script>
+	<script src="js/select2/zh-CN.js"></script>
+    <script type="text/javascript" src="http://a.amap.com/jsapi_demos/static/resource/heatmapData.js"></script>
+	
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+</head>
+
+<body style="overflow:auto;">
+    <!-- topbar starts -->
+    <div style="background-color:#F5F68D;position:absolute;z-index:9999;width:1920px;" class="navbar navbar-default" role="navigation">
+
+        <div class="navbar-inner">
+            <button type="button" class="navbar-toggle pull-left animated flip">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"> <img style="width:40px;height:40px;" alt="Charisma Logo" src="img/logo.png" class="hidden-xs"/>
+                <span>&nbsp;&nbsp;Travel<br/>Analyzer</span></a>
+        </div>
+    </div>
+	<div class="bigtitle">居民出行行为可视化系统</div>
+    <!-- topbar ends -->
+	
+	
+	<!-- map starts -->
+	<div id="container" style="position:absolute;width:1920px;height:1020px;z-index:10;"></div>
+	<!-- map ends -->
+	
+	<!-- wrap starts -->
+			<div class="menu-wrap2">
+					<nav class="menu2">
+						<div class="profile"><span>热点区域播放控制</span></div>
+						
+					<div class="link-list">
+					<table style="border-collapse:separate; border-spacing:0px 10px;">
+							<tr>
+							<th>
+							数据日期：
+							<select id="year" class="easyui-combobox" name="dept" style="width:80px;">
+							<option selected="selected">2017</option>
+							</select>年
+							
+							<select id="month" class="easyui-combobox" name="dept" style="width:50px;">
+							<option selected="selected">2</option>
+							</select>月
+							
+							<select id="day" class="easyui-combobox" name="dept" style="width:50px;">
+							<option selected="selected">26</option>
+							<option>27</option>
+							<option>28</option>
+							</select>日
+							</th>
+							</tr>
+							
+							<tr>
+							<th>
+							区域选择:
+							<select id="region_sel" class="region_sel" name="dept" style="width:120px;">
+							<option>白云区</option>
+							<option>花溪区</option>
+							<option  selected="selected">南明区</option>
+							<option>清镇市</option>
+							<option>云岩区</option>
+							<option>乌当区</option>
+							<option>市经济开发区</option>
+							<option>开阳县</option>
+							<option>修文县</option>
+							<option>息烽县</option>
+							</select>
+							</th>
+							</tr>
+					</table>
+					</div>
+					
+				   <div class="icon-list2">
+					
+					<a id="play" ><i class="fa fa-fw fa-play"></i>播放</a>
+					<a id="pause" style="display:none;"><i class="fa fa-fw fa-pause"></i>暂停</a>
+					<a id="stop" style="display:none;"><i class="fa fa-fw fa-stop"></i>停止</a>
+					</div>
+					</nav>
+				</div>
+			
+			<div class="set4-wrap">
+				<nav class="set4">
+						<div class="profile"><span>聚类分析</span></div>
+						
+					<div class="link-list">
+					<p>当前时间:<input value="2" type="text" id="txtHour" style="background:transparent;width:40px;border:none">时&nbsp;<input value="30" type="text" id="txtMin" style="background:transparent;width:40px;border:none">分</p>
+					</div>
+					
+				   <div class="icon-list2">
+					
+					<a id="play" ><i class="fa fa-fw fa-play"></i>播放</a>
+					<a id="pause" style="display:none;"><i class="fa fa-fw fa-pause"></i>暂停</a>
+					<a id="stop" style="display:none;"><i class="fa fa-fw fa-stop"></i>停止</a>
+					</div>
+					</nav>
+			</div>
+			
+			<div class="set3-wrap">
+					<nav class="set3">
+						<div class="profile"><span>poi与聚集分析</span></div>
+						
+					<div class="link-list" style="height:250px;">
+					<p>数据时间:<input value="2017" type="text" id="txtYear" style="background:transparent;width:40px;border:none">年&nbsp;<input value="2" type="text" id="txtMonth" style="background:transparent;width:20px;border:none">月&nbsp;<input value="26" type="text" id="txtSecond" style="background:transparent;width:20px;border:none">日</p>
+					<table style="border-collapse:separate; border-spacing:0px 10px; margin:0 auto;">
+					<tr>
+					
+					<th>
+					选择poi点类型
+					<select id="select_poiclass" style="width:100px;">
+					<option selected="selected">旅游景点</option>
+					<option>医院</option>
+					<option>学校</option>
+					<option>行政单位</option>
+					<option>商业区</option>
+					</select>
+					</th>
+					
+					<th>
+					选择poi点
+					<select id="select_poi" class="select_poi" style="width:120px;">
+					<option>黔灵山公园</option>
+					<option>青岩古镇</option>
+					<option selected="selected">花溪公园</option>
+					<option>小车河</option>
+					<option>甲秀楼</option>
+					<option>天河潭</option>
+					<option>南江大峡谷</option>
+					<option>红枫湖风景区</option>
+					<option>森林野生动物园</option>
+					<option>花果园湿地公园</option>
+					<option>森林公园</option>
+					<option>观山湖公园</option>
+					<option>情人谷</option>
+					<option>白云公园</option>
+					<option>蓬莱仙界园</option>
+					</select>
+					</th>
+						
+					</tr>
+					
+					<tr>
+						<th>
+						显示方式:&emsp;&emsp;
+						<select id="modesel_liu" class="easyui-combobox" style="width:100px;" onclick="modesel_liu()">
+						<option selected="selected">单统计图</option>
+						<option>双统计图</option>
+						</select>
+						</th>
+					</tr>
+					
+					<tr>
+					<th>
+						统计图类型1：
+						<select id="chart_sel_liu" class="easyui-combobox" name="dept" style="width:120px;" onclick="chart_sel_liu()">
+						<option selected="selected">柱状图</option>
+						<option>关系图</option>
+						</select>
+					</th>
+					<th>
+						<table id="table0_liu" border="0" style="font-size:15px;">
+						  <tr>
+							<th><a id="bar-button3" style="cursor:pointer;"><i class="fa fa-fw fa-bar-chart "></i>3D柱状图</a></th>
+						  </tr>
+						</table>
+						<table id="table1_liu" border="0" style="font-size:15px;display:none;">
+						  <tr>
+							<th><a id="calendar-button1" style="cursor:pointer;"><i class="fa fa-fw fa-pie-chart "></i>环状热力图</a></th>
+							<th><a id="calendar-button2" style="cursor:pointer;"><i class="fa fa-fw fa-calendar "></i>矩形热力图</a></th>
+						  </tr>
+						</table>
+					</th>
+					</tr>
+
+					<tr >
+					<th>
+						统计图类型2：
+						<select id="chart_sel2_liu" class="easyui-combobox" name="dept" style="width:120px;" onclick="chart_sel2_liu()">
+						<option selected="selected">柱状图</option>
+						<option>关系图</option>
+						</select>
+					</th>
+					<th id="th_chart2_liu" style="display:none;">
+						<table id="table3_liu" border="0" style="font-size:15px;">
+						  <tr>
+							<th><a id="bar-button6" style="cursor:pointer;"><i class="fa fa-fw fa-bar-chart "></i>3D柱状图</a></th>
+						  </tr>
+						</table>
+						<table id="table4_liu" border="0" style="font-size:15px;display:none;">
+						  <tr>
+							<th><a id="calendar-button3" style="cursor:pointer;"><i class="fa fa-fw fa-pie-chart "></i>环状日历图</a></th>
+							<th><a id="calendar-button4" style="cursor:pointer;"><i class="fa fa-fw fa-calendar "></i>矩形日历图</a></th>
+						  </tr>
+						</table>
+					</th>
+					</tr>
+					</table>
+					</div>
+					
+				   <div class="icon-list2">
+				   <table>
+					<tr>
+					<th><a id="show_charts_liu" style="cursor:pointer;"><i class="fa fa-fw fa-check "></i>显示</a></th>
+					<th><a id="hide_charts_liu" style="cursor:pointer;"><i class="fa fa-fw fa-times "></i>隐藏</a></th>
+					</tr>
+				   </table>
+					</div>
+					</nav>
+					
+					<button class="close-button" id="close-button4" onclick="">Close Menu</button>
+				</div>
+				
+			<div class="set-wrap">
+					<nav class="set">
+						<div class="profile"><span>流量分析</span></div>
+						
+					<div class="link-list" style="height:200px;">
+					<p>数据时间:<input value="2017" type="text" id="txtYear" style="background:transparent;width:40px;border:none">年&nbsp;<input value="2" type="text" id="txtMonth" style="background:transparent;width:20px;border:none">月&nbsp;<input value="26" type="text" id="txtSecond" style="background:transparent;width:20px;border:none">日</p>
+					
+					<table>
+					<tr>
+						
+						<th>
+						区域选择:&emsp;&emsp;
+						<select id="region_sel" class="region_sel" name="dept" style="width:120px;">
+						<option>白云区</option>
+						<option>花溪区</option>
+						<option selected="selected">南明区</option>
+						<option>清镇市</option>
+						<option>云岩区</option>
+						<option>乌当区</option>
+						<option>市经济开发区</option>
+						<option>开阳县</option>
+						<option>修文县</option>
+						<option>息烽县</option>
+						</select>
+						</th>
+						
+						<th style="margin-left:120px;">
+						&emsp;&emsp;显示方式:
+						<select id="modesel" class="easyui-combobox" style="width:100px;" onclick="modesel()">
+						<option selected="selected">单统计图</option>
+						<option>双统计图</option>
+						</select>
+						</th>
+					</tr>
+					
+					<tr>
+					</br>
+					<th>
+						统计图类型1：
+						<select id="chart_sel" class="easyui-combobox" name="dept" style="width:120px;" onclick="chart_sel()">
+						<option selected="selected">柱状图</option>
+						<option>面积图</option>
+						</select>
+					</th>
+					<th>
+						<table id="table0" border="0" style="font-size:15px;">
+						  <tr>
+							<th><a id="bar-button" style="cursor:pointer;"><i class="fa fa-fw fa-bar-chart "></i>时间柱状图</a></th>
+							<th><a id="bar-button2" style="cursor:pointer;"><i class="fa fa-fw fa-bar-chart "></i>区域柱状图</a></th>
+						  </tr>
+						</table>
+						<table id="table2" border="0" style="font-size:15px;display:none;">
+						  <tr>
+							<th><a id="area-button" style="cursor:pointer;"><i class="fa fa-fw fa-area-chart "></i>面积图</a></th>
+						  </tr>
+						</table>
+					</th>
+					</tr>
+
+					<tr >
+					<th>
+						统计图类型2：
+						<select id="chart_sel2" class="easyui-combobox" name="dept" style="width:120px;" onclick="chart_sel2()">
+						<option selected="selected">柱状图</option>
+						<option>面积图</option>
+						</select>
+					</th>
+					<th id="th_chart2" style="display:none;">
+						<table id="table3" border="0" style="font-size:15px;">
+						  <tr>
+							<th><a id="bar-button4" style="cursor:pointer;"><i class="fa fa-fw fa-bar-chart "></i>时间柱状图</a></th>
+							<th><a id="bar-button5" style="cursor:pointer;"><i class="fa fa-fw fa-bar-chart "></i>区域柱状图</a></th>
+						  </tr>
+						</table>
+						<table id="table5" border="0" style="font-size:15px;display:none;">
+						  <tr>
+							<th><a id="area-button2" style="cursor:pointer;"><i class="fa fa-fw fa-area-chart "></i>面积图</a></th>
+						  </tr>
+						</table>
+					</th>
+					</tr>
+					</table>
+					</div>
+					
+				   <div class="icon-list2">
+					<table>
+					<tr>
+					<th><a id="show_charts" style="cursor:pointer;"><i class="fa fa-fw fa-check "></i>显示</a></th>
+					<th><a id="hide_charts" style="cursor:pointer;"><i class="fa fa-fw fa-times "></i>隐藏</a></th>
+					</tr>
+					</table>
+					</div>
+					</nav>
+					
+					<button class="close-button" id="close-button3" onclick="">Close Menu</button>
+				</div>
+				
+				
+				
+			<div class="set2-wrap">
+					<nav class="set2">
+					<div class="profile">参数设置</div>
+					<div class="link-list">
+						<table>
+							<tr>
+							<th>
+							数据日期：
+							<select id="year" class="easyui-combobox" name="dept" style="width:80px;">
+							<option selected="selected">2017</option>
+							</select>年
+							
+							<select id="month" class="easyui-combobox" name="dept" style="width:50px;">
+							<option selected="selected">2</option>
+							</select>月
+							
+							<select id="day" class="easyui-combobox" name="dept" style="width:50px;">
+							<option selected="selected">26</option>
+							<option>27</option>
+							<option>28</option>
+							</select>日
+							</th>
+							</tr>
+							
+							<tr>
+							<th>
+							城市选择:
+							<select class="select_city" style="width:150px;">
+							  <option value="贵阳">贵阳</option>
+							  <option value="北京">北京</option>
+							  <option value="上海">上海</option>
+							  <option value="广州">广州</option>
+							  <option value="深圳">深圳</option>
+							  <option value="成都">成都</option>
+							  <option value="杭州">杭州</option>
+							  <option value="武汉">武汉</option>
+							  <option value="重庆">重庆</option>
+							  <option value="南京">南京</option>
+							  <option value="天津">天津</option>
+							  <option value="苏州">苏州</option>
+							  <option value="西安">西安</option>
+							  <option value="长沙">长沙</option>
+							  <option value="青岛">青岛</option>
+							  <option value="郑州">郑州</option>
+							  <option value="大连">大连</option>
+							  <option value="东莞">东莞</option>
+							  <option value="宁波">宁波</option>
+							  <option value="厦门">厦门</option>
+							  
+							</select>
+							
+							地图样式:
+							<select id="mapsel" class="easyui-combobox" name=mapsel" style="width:100px;color:#000000;">
+							<option selected="selected">标准图</option>
+							<option>交通图</option>
+							<option>影像图</option>
+							<option>3D楼块图</option>
+							</select>
+							</th>
+							
+							<th>
+							<a id="maprefresh" style="cursor:pointer;"><i class="fa fa-fw fa-refresh"></i>刷新地图</a>
+							</th>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="icon-list2" style="left:1em;">
+					<a>热力图:</a>
+					<a id="eye" style="cursor:pointer;"><i class="fa fa-fw fa-eye"></i>开</a>
+					<a id="eye-slash" style="cursor:pointer;"><i class="fa fa-fw fa-eye-slash"></i>关</a>
+					</div>
+					
+					
+					</nav>
+					<button class="close-button" id="close-button-cog" onclick="">Close Menu</button>
+				</div>
+				
+			
+				<div class="div-charts1" id="div-charts1">
+					<iframe id="iframe1" width="100%" height="100%"  src="charts/bar1.html" border="none" scrolling="no" frameborder="no" ></iframe>
+					<button class="close-button" id="close-button1" onclick="">Close Menu</button>
+				</div>
+				
+				<div class="div-charts2" id="div-charts2">
+					<div style="width:50%;height:100%; float:left;"><iframe id="iframe2_1" width="100%" height="100%"  src="charts/bar1.html" border="none" scrolling="no" frameborder="no" ></iframe></div>
+					<div style="width:50%;height:100%; float:right;"><iframe id="iframe2_2" width="100%" height="100%"  src="charts/bar2.html" border="none" scrolling="no" frameborder="no" ></iframe></div>
+					<button class="close-button" id="close-btn2" onclick="">Close Menu</button>
+				</div>
+				
+			<button class="time-button1" id="time-button1"><i class="fa fa-fw fa-clock-o fa-2x"></i><span>Open Menu</span></button>
+			<button class="menu-button2" id="open-button2" ><i class="fa fa-fw fa-youtube-play fa-2x"></i><span>Open Menu</span></button>
+			<button class="set-button set1" id="set-button"><i class="fa fa-fw fa-line-chart fa-1x"></i><span>流量分析</span></button>
+			<button class="set3-button" id="set3-button"><i class="fa fa-fw fa-map fa-1x"></i><span>poi与聚集分析</span></button>
+			<button class="set3-button" id="set4-button" style="margin-right:330px;"><i class="fa fa-fw fa-home fa-1x"></i><span>返回主页</span></button>
+		
+	<!-- wrap ends -->
+	
+	<!-- timeline starts -->
+	<div class="chartBox tbox2" style="z-index: 9999;">
+		<div id="timeline" style="z-index: 9999; width:2px; height:100px; background-color:#ED7812;margin-left:37px; margin-top:0px; position: absolute;"></div>
+        <div class='wrapper' style="position: absolute; height:100px; width:1800px;"> 	<canvas height='100' id='canvas' width='1885'></canvas></div>
+    </div>
+	<!-- timeline ends -->
+
+	
+<!-- javascript -->
+<script src="js/prefixfree.min.js"></script><!--时间轴类1-->
+<script src='js/Chart.min.js'></script><!--时间轴类2-->
+<script src="js/classie.js"></script><!--隐藏菜单控制-->
+
+<script src="js/my/time1.js"></script><!--时间设置-->
+<script src="js/my/option_menu.js"></script><!--时间轴控制-->
+<script src="js/my/set_menu.js"></script><!--流量分析-->
+<script src="js/my/set2_menu.js"></script><!--参数设置-->
+<script src="js/my/set3_menu.js"></script><!--poi与聚集分析-->
+<script src="js/my/movechart_cluster.js"></script><!--时间轴移动-->
+<script src="js/my/line-chart-index.js"></script><!--时间轴设置-->
+<script src="js/my/map_standard.js"></script><!--地图样式设置-->
+<script src="js/my/cluster_config.js"></script><!--聚类设置-->
+<!-- javascript ends-->
+</body>
+</html>

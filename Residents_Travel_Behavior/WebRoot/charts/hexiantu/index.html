@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+	<script src="jquery.min.js"></script>
+	<script src="dataTool.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 945px;height:700px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        myChart.showLoading();
+$.get('les-miserables.gexf', function (xml) {
+    myChart.hideLoading();
+
+    var graph = echarts.dataTool.gexf.parse(xml);
+    var categories = [{name:'白云区',itemStyle:{normal:{color:'rgba(0,0,0,1)'}}},{name:'观山湖区'},{name:'花溪区'},{name:'开阳县'},{name:'南明区'},{name:'清镇市'},{name:'市经济开发区'},{name:'乌当区'},{name:'息烽县'},{name:'修文县'},{name:'云岩区'}];
+    graph.nodes.forEach(function (node) {
+		var symbolSize;
+        node.itemStyle = null;
+		symbolSize=node.symbolSize/100*90000;
+		node.value = symbolSize.toFixed(0);
+        node.category = node.attributes.modularity_class;
+    });
+    option = {
+	backgroundColor: 'rgba(255, 255, 255, 1)',
+        title: {
+            text: '贵阳手机用户流向分析',
+            subtext: 'Circular layout',
+            top: 'bottom',
+            left: 'right'
+        },
+        tooltip: {},
+        legend: [{
+            // selectedMode: 'single',
+            data: categories.map(function (a) {
+                return a.name;
+            })
+        }],
+        animationDurationUpdate: 1500,
+        animationEasingUpdate: 'quinticInOut',
+        series : [
+            {
+                name: '用户数',
+                type: 'graph',
+                layout: 'circular',
+                circular: {
+                    rotateLabel: true
+                },
+                data: graph.nodes,
+                links: graph.links,
+                categories: categories,
+                roam: true,
+                label: {
+                    normal: {
+                        position: 'right',
+                        formatter: '{b}'
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        color: 'source',
+                        curveness: 0.3
+                    }
+                }
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+}, 'xml');
+    </script>
+</body>
+</html>
